@@ -4,10 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/captured_layout_item.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/community_layout_item.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_captured.xml" value="0.11197916666666667" />
+        <entry key="app/src/main/res/layout/fragment_community.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/fragment_comunity.xml" value="0.11197916666666667" />
         <entry key="app/src/main/res/layout/fragment_explore.xml" value="0.11197916666666667" />
         <entry key="app/src/main/res/layout/fragment_my_team.xml" value="0.11197916666666667" />
+        <entry key="app/src/main/res/layout/myteam_layout_item.xml" value="0.335" />
       </map>
     </option>
   </component>

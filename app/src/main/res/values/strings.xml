@@ -2,4 +2,7 @@
     <string name="app_name">Samaritan Assignment</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="friends">Friends</string>
+    <string name="trainer_img">trainer_img</string>
+    <string name="foes">Foes</string>
 </resources>

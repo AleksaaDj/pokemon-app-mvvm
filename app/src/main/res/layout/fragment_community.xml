@@ -1,14 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ComunityFragment">
+    tools:context=".fragments.community.CommunityFragment"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/friends_title_tv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Community" />
+        android:layout_height="wrap_content"
+        android:text="@string/friends"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:padding="@dimen/padding_normal"
+        android:textSize="@dimen/txt_size_big"/>
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_friends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_very_small"
+        android:orientation="horizontal"
+        tools:listitem="@layout/community_layout_item" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/margin_big_very"
+        android:background="@color/black"/>
+
+    <TextView
+        android:id="@+id/foes_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/foes"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:padding="@dimen/padding_normal"
+        android:textSize="@dimen/txt_size_big"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_foes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
+        android:padding="@dimen/padding_very_small"
+        android:orientation="horizontal"
+        tools:listitem="@layout/community_layout_item" />
+</LinearLayout>
