@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="txt_size_big">28sp</dimen>
+    <dimen name="padding_normal">25dp</dimen>
+    <dimen name="padding_very_small">8dp</dimen>
+    <dimen name="margin_very_small">8dp</dimen>
+    <dimen name="margin_normal">14dp</dimen>
+    <dimen name="margin_big">19dp</dimen>
+    <dimen name="margin_big_very">28dp</dimen>
+
+
+
+
+</resources>
