@@ -2,7 +2,6 @@ package com.aleksa.samaritanassignment.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.aleksa.samaritanassignment.R
 import com.aleksa.samaritanassignment.adapters.FragmentPagerAdapter
 import com.aleksa.samaritanassignment.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator

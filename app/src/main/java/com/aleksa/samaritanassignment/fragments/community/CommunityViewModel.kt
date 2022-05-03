@@ -6,25 +6,33 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.aleksa.samaritanassignment.models.*
 import com.aleksa.samaritanassignment.network.MainRepository
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 
 class CommunityViewModel constructor(private val repository: MainRepository) : ViewModel() {
 
     val community = MutableLiveData<Community>()
 
     fun getCommunity(token: String){
-        val response = repository.getCommunity("Bearer $token")
-        response.enqueue(object : Callback<Community> {
-            override fun onResponse(call: Call<Community>, response: Response<Community>) {
-                val responseBody = response.body()
-                community.postValue(responseBody)
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = repository.getCommunity("Bearer $token")
+            withContext(Dispatchers.Main) {
+                try {
+                    if (response.isSuccessful) {
+                        community.postValue(response.body())
+                    } else {
+                        Log.e("GetCommunity", response.code().toString())
+                    }
+                } catch (e: HttpException) {
+                    Log.e("GetCommunity", e.message())
+                } catch (e: Throwable) {
+                    Log.e("GetCommunity", "Something went wrong")
+                }
             }
-            override fun onFailure(call: Call<Community>, t: Throwable) {
-                Log.e("GetCommunity",t.message.toString())
-            }
-        })
+        }
     }
 
     class ViewModelFactory constructor(private val repository: MainRepository) :

@@ -6,10 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.aleksa.samaritanassignment.R
-import com.aleksa.samaritanassignment.models.Community
-import com.aleksa.samaritanassignment.models.MyTeam
 import com.aleksa.samaritanassignment.models.MyTeamItem
-import com.aleksa.samaritanassignment.models.Pokemon
 import com.aleksa.samaritanassignment.utils.FormatDateTimeUtil
 
 class MyTeamAdapter(private val list: List<MyTeamItem>) :

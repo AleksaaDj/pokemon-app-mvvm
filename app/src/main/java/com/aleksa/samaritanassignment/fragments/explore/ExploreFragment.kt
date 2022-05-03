@@ -1,21 +1,21 @@
 package com.aleksa.samaritanassignment.fragments.explore
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.aleksa.samaritanassignment.R
+import com.aleksa.samaritanassignment.activities.PokemonDetailActivity
 import com.aleksa.samaritanassignment.databinding.FragmentExploreBinding
-import com.aleksa.samaritanassignment.models.MoveDefinition
 import com.aleksa.samaritanassignment.network.MainRepository
 import com.aleksa.samaritanassignment.network.RetrofitService
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
+import kotlin.random.Random
 
 
 class ExploreFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -35,7 +35,8 @@ class ExploreFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
         setupViewModel()
         return binding.root
     }
-    private fun setupViewModel(){
+
+    private fun setupViewModel() {
         viewModel = ViewModelProvider(
             this, ExploreViewModel.ViewModelFactory(
                 MainRepository(retrofitService)
@@ -44,12 +45,7 @@ class ExploreFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
         viewModel.tokenLiveData.observe(viewLifecycleOwner) {
             saveToken(it.token)
         }
-        viewModel.pokemonLiveData.observe(viewLifecycleOwner) {
-            showMoves(it.moves)
-            Log.d("TAG", "onCreate: ${it.moves[2]}")
-        }
         viewModel.getToken()
-        viewModel.getPokemon("55")
     }
 
     private fun saveToken(token: String) {
@@ -60,15 +56,13 @@ class ExploreFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
         editor?.apply()
     }
 
-    private fun showMoves(list: List<MoveDefinition>) {
-        val sliceList = list.slice(1..4)
-        sliceList.forEachIndexed { _, moveDefinition ->
-            Log.d("MOVENAME", moveDefinition.move.name)
-        }
-    }
-
     override fun onMarkerClick(marker: Marker): Boolean {
-        Toast.makeText(context, marker.title + " is captured", Toast.LENGTH_LONG).show()
+        startActivity(Intent(context, PokemonDetailActivity::class.java).apply {
+            putExtra("pokemonName", marker.title)
+            putExtra("screenType", PokemonDetailActivity.WILD)
+            putExtra("pokemonLongitude", marker.position.longitude)
+            putExtra("pokemonLatitude", marker.position.latitude)
+        })
         return true
     }
 
@@ -88,12 +82,17 @@ class ExploreFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
                 ), 17.0f
             )
         )
-        addMaker(googleMap, "Pikachu", 35.6774, 139.6503)
-        addMaker(googleMap, "Bumbasaur", 35.6763, 139.6518)
-        addMaker(googleMap, "Togepi", 35.6752, 139.6500)
-        addMaker(googleMap, "Minosaur", 35.6741, 139.65024)
-        addMaker(googleMap, "Squirrel", 35.6762, 139.6503)
-
+        viewModel.pokemonListLiveData.observe(viewLifecycleOwner) {
+            var latitude = 35.6774
+            var longitude = 139.6503
+            val sliceList = it.pokemonList.slice(1..19)
+            sliceList.forEachIndexed { _, pokemonList ->
+                addMaker(googleMap, pokemonList.name, latitude, longitude)
+                latitude = Random.nextDouble(35.6670, 35.6815)
+                longitude = Random.nextDouble(139.6420, 139.6550)
+            }
+        }
+        viewModel.getPokemonList("30")
     }
 
     private fun addMaker(

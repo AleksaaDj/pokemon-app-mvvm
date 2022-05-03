@@ -5,4 +5,15 @@
     <string name="friends">Friends</string>
     <string name="trainer_img">trainer_img</string>
     <string name="foes">Foes</string>
+    <string name="pokemon_img">pokemon_img</string>
+    <string name="basic_info">Basic Info</string>
+    <string name="moves">Moves</string>
+    <string name="found_in">Found In</string>
+    <string name="capture">Capture</string>
+    <string name="assign_name">Assign a Name?</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="name">Name:</string>
+    <string name="types">Types:</string>
+    <string name="captured_on">Captured On:</string>
 </resources>

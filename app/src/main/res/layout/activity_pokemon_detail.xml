@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?><!--first of all you have to change
+    the layout as CoordinatorLayout.
+    This is the first thing we need to do.-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.PokemonDetailActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/dark_grey"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="@color/red"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
+
+            <ImageView
+                android:id="@+id/pokemon_front_iv"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="100dp"
+                android:layout_marginStart="80dp"
+                android:contentDescription="@string/pokemon_img"
+                android:scaleType="fitXY"
+                app:layout_collapseMode="parallax" />
+
+            <ImageView
+                android:id="@+id/pokemon_back_iv"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginEnd="80dp"
+                android:layout_gravity="end"
+                android:contentDescription="@string/pokemon_img"
+                android:scaleType="fitXY"
+                app:layout_collapseMode="parallax" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_normal"
+                android:elevation="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/basic_info_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_very_small"
+                        android:text="@string/basic_info"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/txt_size_big" />
+
+                    <TextView
+                        android:id="@+id/types"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/padding_very_small"
+                        android:paddingBottom="@dimen/padding_very_small"
+                        android:text="@string/types"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/txt_size_normal" />
+
+                    <TextView
+                        android:id="@+id/time_captured_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/padding_very_small"
+                        android:paddingBottom="@dimen/padding_very_small"
+                        android:text="@string/captured_on"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/txt_size_normal" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_normal"
+                android:elevation="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/moves_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_very_small"
+                        android:text="@string/moves"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/txt_size_big" />
+
+                    <TextView
+                        android:id="@+id/move_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/padding_very_small"
+                        android:paddingBottom="@dimen/padding_very_small"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/txt_size_normal" />
+
+                    <TextView
+                        android:id="@+id/move_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/padding_very_small"
+                        android:paddingBottom="@dimen/padding_very_small"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/txt_size_normal" />
+
+                    <TextView
+                        android:id="@+id/move_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/padding_very_small"
+                        android:paddingBottom="@dimen/padding_very_small"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/txt_size_normal" />
+
+                    <TextView
+                        android:id="@+id/move_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/padding_very_small"
+                        android:paddingBottom="@dimen/padding_very_small"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/txt_size_normal" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_normal"
+                android:elevation="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/found_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_very_small"
+                        android:text="@string/found_in"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/txt_size_big" />
+
+                    <com.google.android.gms.maps.MapView
+                        android:id="@+id/map_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        map:liteMode="true" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/capture_btn"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_margin="@dimen/margin_normal"
+                android:backgroundTint="@color/red"
+                android:text="@string/capture"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_very_small"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            app:lottie_fileName="pokeball_anim.json"
+            app:lottie_autoPlay="false"
+            android:visibility="gone"
+            app:lottie_loop="true"/>
+    </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

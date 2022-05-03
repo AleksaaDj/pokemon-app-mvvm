@@ -10,10 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aleksa.samaritanassignment.adapters.MyTeamAdapter
 import com.aleksa.samaritanassignment.databinding.FragmentMyTeamBinding
-import com.aleksa.samaritanassignment.fragments.community.CommunityViewModel
-import com.aleksa.samaritanassignment.models.MyTeam
 import com.aleksa.samaritanassignment.models.MyTeamItem
-import com.aleksa.samaritanassignment.models.Pokemon
 import com.aleksa.samaritanassignment.network.MainRepository
 import com.aleksa.samaritanassignment.network.RetrofitService
 
@@ -48,14 +45,9 @@ class MyTeamFragment : Fragment() {
     }
 
     private fun setupRecyclers(myTeam: List<MyTeamItem>) {
-        //creating recycler val
         val recyclerMyTeam = binding.recyclerMyteam
-
-        //setting recycler to horizontal scroll
         recyclerMyTeam.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
-        //setting adapter to recycler
         recyclerMyTeam.adapter = MyTeamAdapter(myTeam)
     }
 }
