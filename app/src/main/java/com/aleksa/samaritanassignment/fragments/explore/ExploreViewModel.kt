@@ -4,42 +4,53 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.aleksa.samaritanassignment.models.Pokemon
+import com.aleksa.samaritanassignment.models.PokemonList
 import com.aleksa.samaritanassignment.models.Token
 import com.aleksa.samaritanassignment.network.MainRepository
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.*
+import retrofit2.HttpException
 
 
 class ExploreViewModel constructor(private val repository: MainRepository) : ViewModel() {
 
-    val pokemonLiveData = MutableLiveData<Pokemon>()
+    val pokemonListLiveData = MutableLiveData<PokemonList>()
     val tokenLiveData = MutableLiveData<Token>()
 
     fun getToken(){
-        val response = repository.getToken()
-        response.enqueue(object : Callback<Token> {
-            override fun onResponse(call: Call<Token>, response: Response<Token>) {
-                tokenLiveData.postValue(response.body())
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = repository.getToken()
+            withContext(Dispatchers.Main) {
+                try {
+                    if (response.isSuccessful) {
+                        tokenLiveData.postValue(response.body())
+                    } else {
+                        Log.e("GetToken", response.code().toString())
+                    }
+                } catch (e: HttpException) {
+                    Log.e("GetToken", e.message())
+                } catch (e: Throwable) {
+                    Log.e("GetToken", "Something went wrong")
+                }
             }
-            override fun onFailure(call: Call<Token>, t: Throwable) {
-                Log.e("GetToken",t.message.toString())
-            }
-        })
+        }
     }
-     fun getPokemon(id: String){
-        val response = repository.getPokemon(id)
-        response.enqueue(object : Callback<Pokemon> {
-            override fun onResponse(call: Call<Pokemon>, response: Response<Pokemon>) {
-               /* val responseBody = response.body()
-                val pokemon: Pokemon? = responseBody?.let { Pokemon(it.id, it.name, it.moves) }
-                pokemonLiveData.postValue(pokemon)*/
+    fun getPokemonList(limit: String){
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = repository.getPokemonList(limit)
+            withContext(Dispatchers.Main) {
+                try {
+                    if (response.isSuccessful) {
+                        pokemonListLiveData.postValue(response.body())
+                    } else {
+                        Log.e("GetPokemonList", response.code().toString())
+                    }
+                } catch (e: HttpException) {
+                    Log.e("GetPokemonList", e.message())
+                } catch (e: Throwable) {
+                    Log.e("GetPokemonList", "Something went wrong")
+                }
             }
-            override fun onFailure(call: Call<Pokemon>, t: Throwable) {
-                Log.e("GetPokemon",t.message.toString())
-            }
-        })
+        }
     }
 
     class ViewModelFactory constructor(private val repository: MainRepository) :

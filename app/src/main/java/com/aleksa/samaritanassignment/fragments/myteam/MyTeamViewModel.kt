@@ -4,29 +4,35 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.aleksa.samaritanassignment.models.Captured
-import com.aleksa.samaritanassignment.models.MyTeam
 import com.aleksa.samaritanassignment.models.MyTeamItem
 import com.aleksa.samaritanassignment.network.MainRepository
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 
 class MyTeamViewModel constructor(private val repository: MainRepository) : ViewModel() {
 
     val myTeam = MutableLiveData<List<MyTeamItem>>()
 
     fun getMyTeam(token: String) {
-        val response = repository.getMyTeam("Bearer $token")
-        response.enqueue(object : Callback<List<MyTeamItem>> {
-            override fun onResponse(call: Call<List<MyTeamItem>>, response: Response<List<MyTeamItem>>) {
-                val responseBody = response.body()
-                myTeam.postValue(responseBody)
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = repository.getMyTeam("Bearer $token")
+            withContext(Dispatchers.Main) {
+                try {
+                    if (response.isSuccessful) {
+                        myTeam.postValue(response.body())
+                    } else {
+                        Log.e("GetMyTeam", response.code().toString())
+                    }
+                } catch (e: HttpException) {
+                    Log.e("GetMyTeam", e.message())
+                } catch (e: Throwable) {
+                    Log.e("GetMyTeam", "Something went wrong")
+                }
             }
-            override fun onFailure(call: Call<List<MyTeamItem>>, t: Throwable) {
-                Log.e("GetMyTeam", t.message.toString())
-            }
-        })
+        }
     }
 
     class ViewModelFactory constructor(private val repository: MainRepository) :

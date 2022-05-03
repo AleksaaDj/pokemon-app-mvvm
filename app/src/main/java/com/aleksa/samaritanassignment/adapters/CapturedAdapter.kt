@@ -7,10 +7,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.aleksa.samaritanassignment.R
-import com.aleksa.samaritanassignment.models.Captured
 import com.aleksa.samaritanassignment.models.CapturedItem
-import com.aleksa.samaritanassignment.models.MyTeam
-import com.aleksa.samaritanassignment.models.Pokemon
 
 class CapturedAdapter(private val list: List<CapturedItem>) :
     RecyclerView.Adapter<CapturedAdapter.MyView>() {

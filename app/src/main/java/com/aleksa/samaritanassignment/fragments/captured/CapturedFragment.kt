@@ -8,14 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.aleksa.samaritanassignment.adapters.CapturedAdapter
-import com.aleksa.samaritanassignment.adapters.MyTeamAdapter
 import com.aleksa.samaritanassignment.databinding.FragmentCapturedBinding
-import com.aleksa.samaritanassignment.fragments.community.CommunityViewModel
-import com.aleksa.samaritanassignment.models.Captured
 import com.aleksa.samaritanassignment.models.CapturedItem
-import com.aleksa.samaritanassignment.models.Pokemon
 import com.aleksa.samaritanassignment.network.MainRepository
 import com.aleksa.samaritanassignment.network.RetrofitService
 
@@ -50,13 +45,8 @@ class CapturedFragment : Fragment() {
     }
 
     private fun setupRecyclers(capturedItems: List<CapturedItem>) {
-        //creating recycler val
         val recyclerCaptured = binding.recyclerCaptured
-
-        //setting recycler to horizontal scroll
         recyclerCaptured.layoutManager = GridLayoutManager(context,3)
-
-        //setting adapter to recycler
         recyclerCaptured.adapter = CapturedAdapter(capturedItems)
     }
 
