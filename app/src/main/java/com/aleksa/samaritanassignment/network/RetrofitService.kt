@@ -1,8 +1,7 @@
 package com.aleksa.samaritanassignment.network
 
 import com.aleksa.samaritanassignment.models.*
-import okhttp3.ResponseBody
-import retrofit2.Call
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,9 +11,8 @@ interface RetrofitService {
 
     @POST("https://us-central1-samaritan-android-assignment.cloudfunctions.net/token?email=aleksa.ddjordjevic@gmail.com")
     suspend fun generateToken(): Response<Token>
-    @FormUrlEncoded
-    @POST("https://us-central1-samaritan-android-assignment.cloudfunctions.net/capture/pokemon")
-    suspend fun capturePokemon(@Header("Authorization") authHeader: String, @Field("id") id: Int, @Field("name") name: String, @Field("lat") lat: Double, @Field("long") long: Double ): Response<String>
+    @POST("https://us-central1-samaritan-android-assignment.cloudfunctions.net/capture")
+    suspend fun capturePokemon(@Header("Authorization") authHeader: String, @Body requestBody: RequestBody): Response<ResponseResult>
     @GET("https://us-central1-samaritan-android-assignment.cloudfunctions.net/activity")
     suspend fun getCommunity(@Header("Authorization") authHeader: String): Response<Community>
     @GET("https://us-central1-samaritan-android-assignment.cloudfunctions.net/my-team")

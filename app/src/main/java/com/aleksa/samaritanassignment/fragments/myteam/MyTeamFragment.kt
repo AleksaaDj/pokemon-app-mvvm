@@ -6,19 +6,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.aleksa.samaritanassignment.PokemonApplication
 import com.aleksa.samaritanassignment.adapters.MyTeamAdapter
 import com.aleksa.samaritanassignment.databinding.FragmentMyTeamBinding
 import com.aleksa.samaritanassignment.models.MyTeamItem
-import com.aleksa.samaritanassignment.network.MainRepository
-import com.aleksa.samaritanassignment.network.RetrofitService
+import com.aleksa.samaritanassignment.utils.Constants
 
 class MyTeamFragment : Fragment() {
 
     lateinit var binding: FragmentMyTeamBinding
     lateinit var viewModel: MyTeamViewModel
-    private val retrofitService = RetrofitService.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,8 +27,8 @@ class MyTeamFragment : Fragment() {
         binding = FragmentMyTeamBinding.inflate(inflater, container, false)
         setupViewModel()
         val sharedPreference =
-            activity?.getSharedPreferences("SAMARITAN_PREFERENCE", Context.MODE_PRIVATE)
-        viewModel.getMyTeam(sharedPreference?.getString("token", "").toString())
+            activity?.getSharedPreferences(Constants.SHARED_PREFERENCES_NAME_MAIN, Context.MODE_PRIVATE)
+        viewModel.getMyTeam(sharedPreference?.getString(Constants.SHARED_PREFERENCES_TOKEN, "").toString())
 
         return binding.root
     }
@@ -36,11 +36,14 @@ class MyTeamFragment : Fragment() {
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
             this, MyTeamViewModel.ViewModelFactory(
-                MainRepository(retrofitService)
+                (activity?.application as PokemonApplication).repository
             )
         ).get(MyTeamViewModel::class.java)
         viewModel.myTeam.observe(viewLifecycleOwner) {
             setupRecyclers(it)
+        }
+        viewModel.loading.observe(viewLifecycleOwner) {
+            binding.animationProgressBar.isVisible = it
         }
     }
 

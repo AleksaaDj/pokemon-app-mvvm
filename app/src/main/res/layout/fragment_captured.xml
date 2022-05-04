@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,5 +12,22 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/padding_very_small"
         tools:listitem="@layout/captured_layout_item" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationProgressBar"
+            android:layout_width="@dimen/progress_bar_normal"
+            android:layout_height="@dimen/progress_bar_normal"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/margin_very_small"
+            android:visibility="gone"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="pokeball_anim.json"
+            app:lottie_loop="true" />
+    </RelativeLayout>
 
 </FrameLayout>

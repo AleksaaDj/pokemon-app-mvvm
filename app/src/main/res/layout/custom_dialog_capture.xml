@@ -1,37 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="15dp">
+    android:orientation="vertical"
+    android:padding="@dimen/padding_small">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/assign_name"
-        android:textSize="22sp"
+        android:textAlignment="center"
         android:textColor="@color/black"
-        android:textAlignment="center" />
+        android:textSize="@dimen/txt_size_big" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_very_small">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:layout_weight="3"
             android:backgroundTint="@color/dark_grey"
             android:text="@string/name"
-            android:layout_marginEnd="@dimen/margin_normal"
             android:textColor="@color/black"
-            android:textStyle="bold"
             android:textSize="@dimen/txt_size_normal"
-            android:layout_weight="3" />
+            android:textStyle="bold" />
+
         <EditText
             android:id="@+id/txt_input"
+            style="@style/ThemeOverlay.Material3.TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
             android:layout_weight="1"
-            style="@style/ThemeOverlay.Material3.TextInputEditText"/>
+            android:inputType="text"
+            android:textSize="@dimen/txt_size_normal" />
 
     </LinearLayout>
 
@@ -39,25 +44,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_very_small">
+
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:layout_weight="1"
             android:backgroundTint="@color/dark_grey"
             android:text="@string/cancel"
-            android:layout_marginEnd="@dimen/margin_normal"
             android:textColor="@color/white"
             android:textSize="@dimen/txt_size_normal"
-            android:layout_weight="1" />
+            style="?android:attr/buttonBarButtonStyle" />
+
         <Button
             android:id="@+id/btn_save"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:backgroundTint="@color/red"
             android:text="@string/save"
             android:textColor="@color/white"
-            android:textSize="@dimen/txt_size_normal"
-            android:layout_weight="1"
-            />
+            android:textSize="@dimen/txt_size_normal" />
     </LinearLayout>
 </LinearLayout>
