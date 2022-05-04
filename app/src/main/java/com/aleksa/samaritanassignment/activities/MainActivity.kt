@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.aleksa.samaritanassignment.adapters.FragmentPagerAdapter
 import com.aleksa.samaritanassignment.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.analytics.FirebaseAnalytics
 
 val tabsNameArray = arrayOf(
     "Explore",
@@ -14,6 +15,7 @@ val tabsNameArray = arrayOf(
 )
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         supportActionBar?.hide()
         setContentView(view)
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         val viewPager = binding.viewPager
         val tabLayout = binding.tabLayout

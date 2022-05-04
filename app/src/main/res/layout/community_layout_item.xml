@@ -15,10 +15,14 @@
 
         <ImageView
             android:id="@+id/trainer_image_iv"
+            android:transitionName="trainer"
             android:layout_width="@dimen/trainer_image"
             android:layout_height="@dimen/trainer_image"
             android:contentDescription="@string/trainer_img"
             android:padding="@dimen/padding_very_small"
+            android:layout_marginTop="@dimen/margin_very_small"
+            android:layout_marginBottom="@dimen/margin_very_small"
+            android:layout_marginStart="@dimen/margin_very_small"
             android:src="@drawable/no_trainer_img"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -71,6 +75,7 @@
             android:contentDescription="@string/trainer_img"
             android:padding="@dimen/padding_very_small"
             android:src="@drawable/bulbasaur"
+            android:layout_marginEnd="@dimen/margin_very_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/time_tv"

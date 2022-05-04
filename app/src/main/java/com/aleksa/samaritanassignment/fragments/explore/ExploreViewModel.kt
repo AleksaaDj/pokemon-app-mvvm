@@ -34,7 +34,7 @@ class ExploreViewModel(private val repository: MainRepository) : ViewModel() {
             }
         }
     }
-    fun getPokemonList(limit: String){
+    fun getPokemonList(limit: Int){
         CoroutineScope(Dispatchers.IO).launch {
             val response = repository.getPokemonList(limit)
             withContext(Dispatchers.Main) {

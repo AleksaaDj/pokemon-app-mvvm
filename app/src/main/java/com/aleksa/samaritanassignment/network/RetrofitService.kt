@@ -1,6 +1,7 @@
 package com.aleksa.samaritanassignment.network
 
 import com.aleksa.samaritanassignment.models.*
+import com.aleksa.samaritanassignment.utils.Constants
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -21,8 +22,8 @@ interface RetrofitService {
     suspend fun getCaptured(@Header("Authorization") authHeader: String): Response<List<CapturedItem>>
     @GET("pokemon/{name}")
     suspend fun getPokemon(@Path("name") pokemonName: String): Response<Pokemon>
-    @GET("pokemon?limit")
-    suspend fun getPokemonList(@Query("limit") limit: String): Response<PokemonList>
+    @GET("pokemon/")
+    suspend fun getPokemonList(@Query("limit") limit: Int): Response<PokemonList>
 
     companion object {
         var retrofitService: RetrofitService? = null
@@ -31,7 +32,7 @@ interface RetrofitService {
 
             if (retrofitService == null) {
                 val retrofit = Retrofit.Builder()
-                    .baseUrl("https://pokeapi.co/api/v2/")
+                    .baseUrl(Constants.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                 retrofitService = retrofit.create(RetrofitService::class.java)

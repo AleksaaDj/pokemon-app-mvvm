@@ -39,7 +39,7 @@ class MainRepository(
     //API Calls
     suspend fun getToken() = retrofitService.generateToken()
     suspend fun getPokemon(name: String) = retrofitService.getPokemon(name)
-    suspend fun getPokemonList(limit: String) = retrofitService.getPokemonList(limit)
+    suspend fun getPokemonList(limit: Int) = retrofitService.getPokemonList(limit)
     suspend fun getCommunity(header: String) = retrofitService.getCommunity(header)
     suspend fun getMyTeam(header: String) = retrofitService.getMyTeam(header)
     suspend fun getCaptured(header: String) = retrofitService.getCaptured(header)

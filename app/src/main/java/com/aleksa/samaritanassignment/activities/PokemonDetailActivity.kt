@@ -124,7 +124,7 @@ class PokemonDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setupCapturedOtherScreen() {
-        binding.pokeballAnchor.isVisible = true
+        binding.pokeballAnchor.isVisible = false
         binding.trainerCardView.isVisible = true
         binding.captureBtn.isVisible = false
         binding.timeCapturedTv.isVisible = true

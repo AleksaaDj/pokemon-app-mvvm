@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "323063399157",
+    "project_id": "helpful-data-348813",
+    "storage_bucket": "helpful-data-348813.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:323063399157:android:e57c1236e73c9298803bbc",
+        "android_client_info": {
+          "package_name": "com.aleksa.samaritanassignment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "323063399157-2n9df1qglptrf2lq8t5cdpoq0rgejt40.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfKAO4eVzv0eBwzygaIKpsyLml2c2Li1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "323063399157-2n9df1qglptrf2lq8t5cdpoq0rgejt40.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
