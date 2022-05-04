@@ -37,7 +37,9 @@ class ExploreFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
 
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
-            this, ExploreViewModel.ViewModelFactory((activity?.application as PokemonApplication).repository
+            this,
+            ExploreViewModel.ViewModelFactory(
+                (activity?.application as PokemonApplication).repository
             ),
         ).get(ExploreViewModel::class.java)
         viewModel.tokenLiveData.observe(viewLifecycleOwner) {
@@ -48,7 +50,10 @@ class ExploreFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
 
     private fun saveToken(token: String) {
         val sharedPreference =
-            activity?.getSharedPreferences(Constants.SHARED_PREFERENCES_NAME_MAIN, Context.MODE_PRIVATE)
+            activity?.getSharedPreferences(
+                Constants.SHARED_PREFERENCES_NAME_MAIN,
+                Context.MODE_PRIVATE
+            )
         val editor = sharedPreference?.edit()
         editor?.putString(Constants.SHARED_PREFERENCES_TOKEN, token)
         editor?.apply()
@@ -77,23 +82,28 @@ class ExploreFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
                 LatLng(
                     35.6762,
                     139.6503
-                ), 17.0f
+                ), 15.0f
             )
         )
         viewModel.pokemonListLiveData.observe(viewLifecycleOwner) {
             var latitudeDefault = 35.6774
             var longitudeDefault = 139.6503
-            val sliceList = it.pokemonList.slice(1..19)
+            val sliceList = it.pokemonList.slice(1 until it.pokemonList.size)
             sliceList.forEachIndexed { _, pokemonList ->
                 addMaker(googleMap, pokemonList.name, latitudeDefault, longitudeDefault)
-                latitudeDefault = Random.nextDouble(35.6670, 35.6815)
-                longitudeDefault = Random.nextDouble(139.6420, 139.6550)
+                latitudeDefault = Random.nextDouble(35.1670, 36.9815)
+                longitudeDefault = Random.nextDouble(138.1420, 140.3550)
             }
         }
-        viewModel.getPokemonList("30")
+        viewModel.getPokemonList(50)
     }
 
-    private fun addMaker(googleMap: GoogleMap, pokemonName: String, latitude: Double, longitude: Double) {
+    private fun addMaker(
+        googleMap: GoogleMap,
+        pokemonName: String,
+        latitude: Double,
+        longitude: Double
+    ) {
         googleMap.addMarker(
             MarkerOptions()
                 .position(LatLng(latitude, longitude))

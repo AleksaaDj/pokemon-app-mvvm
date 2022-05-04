@@ -37,8 +37,8 @@ class CapturedAdapter(private val list: List<CapturedItem>) :
                 intent.apply {
                     putExtra(Constants.SHARED_PREFERENCES_POKEMON_NAME, listData.id.toString())
                     putExtra(Constants.SHARED_PREFERENCES_SCREEN_TYPE, PokemonDetailActivity.CAPTURED)
-                    putExtra(Constants.SHARED_PREFERENCES_POKEMON_LONGITUDE, listData.captured_long_at.toDouble())
-                    putExtra(Constants.SHARED_PREFERENCES_POKEMON_LATITUDE, listData.captured_lat_at.toDouble())
+                    putExtra(Constants.SHARED_PREFERENCES_POKEMON_LONGITUDE, listData.capturedLongAt.toDouble())
+                    putExtra(Constants.SHARED_PREFERENCES_POKEMON_LATITUDE, listData.capturedLatAt.toDouble())
                 }
                 activity.startActivity(intent)
             }
