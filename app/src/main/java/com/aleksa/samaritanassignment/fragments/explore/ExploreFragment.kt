@@ -8,11 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.aleksa.samaritanassignment.PokemonApplication
 import com.aleksa.samaritanassignment.R
 import com.aleksa.samaritanassignment.activities.PokemonDetailActivity
 import com.aleksa.samaritanassignment.databinding.FragmentExploreBinding
-import com.aleksa.samaritanassignment.network.MainRepository
-import com.aleksa.samaritanassignment.network.RetrofitService
+import com.aleksa.samaritanassignment.utils.Constants
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 import kotlin.random.Random
@@ -21,7 +21,6 @@ import kotlin.random.Random
 class ExploreFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     private var mapView: MapView? = null
     lateinit var viewModel: ExploreViewModel
-    private val retrofitService = RetrofitService.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,9 +37,8 @@ class ExploreFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
 
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
-            this, ExploreViewModel.ViewModelFactory(
-                MainRepository(retrofitService)
-            )
+            this, ExploreViewModel.ViewModelFactory((activity?.application as PokemonApplication).repository
+            ),
         ).get(ExploreViewModel::class.java)
         viewModel.tokenLiveData.observe(viewLifecycleOwner) {
             saveToken(it.token)
@@ -50,18 +48,18 @@ class ExploreFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
 
     private fun saveToken(token: String) {
         val sharedPreference =
-            activity?.getSharedPreferences("SAMARITAN_PREFERENCE", Context.MODE_PRIVATE)
+            activity?.getSharedPreferences(Constants.SHARED_PREFERENCES_NAME_MAIN, Context.MODE_PRIVATE)
         val editor = sharedPreference?.edit()
-        editor?.putString("token", token)
+        editor?.putString(Constants.SHARED_PREFERENCES_TOKEN, token)
         editor?.apply()
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
         startActivity(Intent(context, PokemonDetailActivity::class.java).apply {
-            putExtra("pokemonName", marker.title)
-            putExtra("screenType", PokemonDetailActivity.WILD)
-            putExtra("pokemonLongitude", marker.position.longitude)
-            putExtra("pokemonLatitude", marker.position.latitude)
+            putExtra(Constants.SHARED_PREFERENCES_POKEMON_NAME, marker.title)
+            putExtra(Constants.SHARED_PREFERENCES_SCREEN_TYPE, PokemonDetailActivity.WILD)
+            putExtra(Constants.SHARED_PREFERENCES_POKEMON_LONGITUDE, marker.position.longitude)
+            putExtra(Constants.SHARED_PREFERENCES_POKEMON_LATITUDE, marker.position.latitude)
         })
         return true
     }
@@ -83,24 +81,19 @@ class ExploreFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
             )
         )
         viewModel.pokemonListLiveData.observe(viewLifecycleOwner) {
-            var latitude = 35.6774
-            var longitude = 139.6503
+            var latitudeDefault = 35.6774
+            var longitudeDefault = 139.6503
             val sliceList = it.pokemonList.slice(1..19)
             sliceList.forEachIndexed { _, pokemonList ->
-                addMaker(googleMap, pokemonList.name, latitude, longitude)
-                latitude = Random.nextDouble(35.6670, 35.6815)
-                longitude = Random.nextDouble(139.6420, 139.6550)
+                addMaker(googleMap, pokemonList.name, latitudeDefault, longitudeDefault)
+                latitudeDefault = Random.nextDouble(35.6670, 35.6815)
+                longitudeDefault = Random.nextDouble(139.6420, 139.6550)
             }
         }
         viewModel.getPokemonList("30")
     }
 
-    private fun addMaker(
-        googleMap: GoogleMap,
-        pokemonName: String,
-        latitude: Double,
-        longitude: Double
-    ) {
+    private fun addMaker(googleMap: GoogleMap, pokemonName: String, latitude: Double, longitude: Double) {
         googleMap.addMarker(
             MarkerOptions()
                 .position(LatLng(latitude, longitude))
@@ -112,7 +105,6 @@ class ExploreFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
     override fun onStart() {
         super.onStart()
         mapView?.onStart()
-
     }
 
     override fun onResume() {
@@ -134,5 +126,4 @@ class ExploreFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
         super.onDestroy()
         mapView?.onDestroy()
     }
-
 }

@@ -15,26 +15,44 @@ import retrofit2.HttpException
 class MyTeamViewModel constructor(private val repository: MainRepository) : ViewModel() {
 
     val myTeam = MutableLiveData<List<MyTeamItem>>()
+    val loading = MutableLiveData<Boolean>()
 
     fun getMyTeam(token: String) {
+        loading.postValue(true)
         CoroutineScope(Dispatchers.IO).launch {
-            val response = repository.getMyTeam("Bearer $token")
-            withContext(Dispatchers.Main) {
-                try {
-                    if (response.isSuccessful) {
-                        myTeam.postValue(response.body())
-                    } else {
-                        Log.e("GetMyTeam", response.code().toString())
+            val myTeamItemRoomList = repository.getMyItemTable()
+            if (myTeamItemRoomList.isEmpty()) {
+                val response = repository.getMyTeam("Bearer $token")
+                withContext(Dispatchers.Main) {
+                    try {
+                        if (response.isSuccessful) {
+                            myTeam.postValue(response.body())
+                            response.body()?.let { addMyTeamItemsToDatabase(it) }
+                        } else {
+                            Log.e(TAG, response.code().toString())
+                        }
+                    } catch (e: HttpException) {
+                        Log.e(TAG, e.message())
+                    } catch (e: Throwable) {
+                        Log.e(TAG, "Something went wrong")
                     }
-                } catch (e: HttpException) {
-                    Log.e("GetMyTeam", e.message())
-                } catch (e: Throwable) {
-                    Log.e("GetMyTeam", "Something went wrong")
                 }
+            } else {
+                myTeam.postValue(myTeamItemRoomList)
+            }
+            loading.postValue(false)
+        }
+    }
+
+    private suspend fun addMyTeamItemsToDatabase(listMyTeamItem: List<MyTeamItem>){
+        listMyTeamItem.let {
+            for (myTeamItem in it) {
+                repository.insertMyTeamItem(myTeamItem)
             }
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     class ViewModelFactory constructor(private val repository: MainRepository) :
         ViewModelProvider.Factory {
 
@@ -45,5 +63,9 @@ class MyTeamViewModel constructor(private val repository: MainRepository) : View
                 throw IllegalArgumentException("ViewModel Not Found")
             }
         }
+    }
+
+    companion object {
+        private const val  TAG = "GetMyTeam"
     }
 }

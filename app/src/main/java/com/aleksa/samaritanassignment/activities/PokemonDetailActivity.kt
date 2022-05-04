@@ -10,11 +10,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import com.aleksa.samaritanassignment.PokemonApplication
 import com.aleksa.samaritanassignment.R
 import com.aleksa.samaritanassignment.databinding.ActivityPokemonDetailBinding
 import com.aleksa.samaritanassignment.models.Pokemon
-import com.aleksa.samaritanassignment.network.MainRepository
-import com.aleksa.samaritanassignment.network.RetrofitService
+import com.aleksa.samaritanassignment.utils.Constants
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -25,13 +25,14 @@ import com.google.android.gms.maps.model.MarkerOptions
 class PokemonDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var screenType: String
     private lateinit var pokemonName: String
+    private lateinit var trainerName: String
+    private lateinit var captureTime: String
     private var pokemonLongitude: Double = 0.0
     private var pokemonLatitude: Double = 0.0
     lateinit var viewModel: PokemonDetailViewModel
     lateinit var pokemon: Pokemon
     private var mapView: MapView? = null
     private lateinit var token: String
-    private val retrofitService = RetrofitService.getInstance()
     private lateinit var binding: ActivityPokemonDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,23 +41,29 @@ class PokemonDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         val view = binding.root
         supportActionBar?.hide()
         setContentView(view)
-        screenType = intent.getStringExtra("screenType").toString()
-        pokemonName = intent.getStringExtra("pokemonName").toString()
-        pokemonLongitude = intent.getDoubleExtra("pokemonLongitude", 0.0)
-        pokemonLatitude = intent.getDoubleExtra("pokemonLatitude", 0.0)
+        getSharedPreferencesValues()
         mapView = binding.mapView
         mapView?.onCreate(savedInstanceState)
         mapView?.getMapAsync(this)
         val sharedPreference =
-            applicationContext?.getSharedPreferences("SAMARITAN_PREFERENCE", Context.MODE_PRIVATE)
-        token = sharedPreference?.getString("token", "").toString()
+            applicationContext?.getSharedPreferences(Constants.SHARED_PREFERENCES_NAME_MAIN, Context.MODE_PRIVATE)
+        token = sharedPreference?.getString(Constants.SHARED_PREFERENCES_TOKEN, "").toString()
         setupViewModel()
+    }
+
+    private fun getSharedPreferencesValues(){
+        screenType = intent.getStringExtra(Constants.SHARED_PREFERENCES_SCREEN_TYPE).toString()
+        pokemonName = intent.getStringExtra(Constants.SHARED_PREFERENCES_POKEMON_NAME).toString()
+        trainerName = intent.getStringExtra(Constants.SHARED_PREFERENCES_POKEMON_TRAINER_NAME).toString()
+        captureTime = intent.getStringExtra(Constants.SHARED_PREFERENCES_POKEMON_CAPTURED_AT).toString()
+        pokemonLongitude = intent.getDoubleExtra(Constants.SHARED_PREFERENCES_POKEMON_LONGITUDE, 0.0)
+        pokemonLatitude = intent.getDoubleExtra(Constants.SHARED_PREFERENCES_POKEMON_LATITUDE, 0.0)
     }
 
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
             this, PokemonDetailViewModel.ViewModelFactory(
-                MainRepository(retrofitService)
+                (application as PokemonApplication).repository
             )
         ).get(PokemonDetailViewModel::class.java)
         viewModel.pokemonLiveData.observe(this) {
@@ -68,14 +75,14 @@ class PokemonDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 Toast.makeText(applicationContext, "Captured!", Toast.LENGTH_LONG).show()
                 startAnimationPokeball()
             } else {
-                Toast.makeText(applicationContext, "Failed to capture", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Fail to capture", Toast.LENGTH_LONG).show()
                 startAnimationPokeball()
             }
         }
         viewModel.getPokemon(pokemonName)
     }
 
-    private fun startAnimationPokeball(){
+    private fun startAnimationPokeball() {
         binding.animationView.animate().alpha(0.0f).duration = 3000
         if (!binding.animationView.isAnimating) {
             binding.animationView.pauseAnimation()
@@ -99,12 +106,41 @@ class PokemonDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setupWildScreen() {
+        binding.pokeballAnchor.isVisible = false
+        binding.trainerCardView.isVisible = false
+        binding.captureBtn.isVisible = true
+        binding.timeCapturedTv.isVisible = false
+        binding.foundTitle.text = getString(R.string.found_in)
+        setupDefaultViews()
+    }
+
+    private fun setupCapturedScreen() {
+        binding.pokeballAnchor.isVisible = true
+        binding.trainerCardView.isVisible = false
+        binding.captureBtn.isVisible = false
+        binding.timeCapturedTv.isVisible = false
+        binding.foundTitle.text = getString(R.string.capture_in)
+        setupDefaultViews()
+    }
+
+    private fun setupCapturedOtherScreen() {
+        binding.pokeballAnchor.isVisible = true
+        binding.trainerCardView.isVisible = true
+        binding.captureBtn.isVisible = false
+        binding.timeCapturedTv.isVisible = true
+        binding.mapCardView.isVisible = false
+        binding.trainerNameTv.text = getString(R.string.captured_by_placeholder, trainerName)
+        binding.timeCapturedTv.text = getString(R.string.captured_on_placeholder, captureTime)
+        setupDefaultViews()
+    }
+
+    private fun setupDefaultViews() {
         val types = pokemon.types
         val moves = pokemon.moves
-        binding.collapsingToolbarLayout.title = pokemonName
+        binding.collapsingToolbarLayout.title = pokemon.name
         for (i in types.indices) {
-            binding.types.append(types[i].type.name)
             binding.types.append(" ")
+            binding.types.append(types[i].type.name)
         }
         binding.move1.text = moves[0].move.name
         binding.move2.text = moves[1].move.name
@@ -112,16 +148,6 @@ class PokemonDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.move4.text = moves[3].move.name
         Glide.with(baseContext).load(pokemon.sprites.frontSpriteUrl).into(binding.pokemonFrontIv)
         Glide.with(baseContext).load(pokemon.sprites.backSpriteUrl).into(binding.pokemonBackIv)
-        binding.captureBtn.isVisible = true
-
-    }
-
-    private fun setupCapturedScreen() {
-
-    }
-
-    private fun setupCapturedOtherScreen() {
-
     }
 
     private fun setupCaptureButton() {

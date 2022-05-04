@@ -11,7 +11,7 @@ import kotlinx.coroutines.*
 import retrofit2.HttpException
 
 
-class ExploreViewModel constructor(private val repository: MainRepository) : ViewModel() {
+class ExploreViewModel(private val repository: MainRepository) : ViewModel() {
 
     val pokemonListLiveData = MutableLiveData<PokemonList>()
     val tokenLiveData = MutableLiveData<Token>()
@@ -24,12 +24,12 @@ class ExploreViewModel constructor(private val repository: MainRepository) : Vie
                     if (response.isSuccessful) {
                         tokenLiveData.postValue(response.body())
                     } else {
-                        Log.e("GetToken", response.code().toString())
+                        Log.e(TAG_TOKEN, response.code().toString())
                     }
                 } catch (e: HttpException) {
-                    Log.e("GetToken", e.message())
+                    Log.e(TAG_TOKEN, e.message())
                 } catch (e: Throwable) {
-                    Log.e("GetToken", "Something went wrong")
+                    Log.e(TAG_TOKEN, "Something went wrong")
                 }
             }
         }
@@ -42,20 +42,20 @@ class ExploreViewModel constructor(private val repository: MainRepository) : Vie
                     if (response.isSuccessful) {
                         pokemonListLiveData.postValue(response.body())
                     } else {
-                        Log.e("GetPokemonList", response.code().toString())
+                        Log.e(TAG_POKEMON_LIST, response.code().toString())
                     }
                 } catch (e: HttpException) {
-                    Log.e("GetPokemonList", e.message())
+                    Log.e(TAG_POKEMON_LIST, e.message())
                 } catch (e: Throwable) {
-                    Log.e("GetPokemonList", "Something went wrong")
+                    Log.e(TAG_POKEMON_LIST, e.message.toString())
                 }
             }
         }
     }
 
-    class ViewModelFactory constructor(private val repository: MainRepository) :
+    @Suppress("UNCHECKED_CAST")
+    class ViewModelFactory(private val repository: MainRepository) :
         ViewModelProvider.Factory {
-
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return if (modelClass.isAssignableFrom(ExploreViewModel::class.java)) {
                 ExploreViewModel(this.repository) as T
@@ -63,5 +63,9 @@ class ExploreViewModel constructor(private val repository: MainRepository) : Vie
                 throw IllegalArgumentException("ViewModel Not Found")
             }
         }
+    }
+    companion object{
+        const val TAG_POKEMON_LIST = "GetPokemonList"
+        const val TAG_TOKEN = "GetToken"
     }
 }

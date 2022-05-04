@@ -15,8 +15,10 @@ import retrofit2.HttpException
 class CommunityViewModel constructor(private val repository: MainRepository) : ViewModel() {
 
     val community = MutableLiveData<Community>()
+    val loading = MutableLiveData<Boolean>()
 
-    fun getCommunity(token: String){
+    fun getCommunity(token: String) {
+        loading.postValue(true)
         CoroutineScope(Dispatchers.IO).launch {
             val response = repository.getCommunity("Bearer $token")
             withContext(Dispatchers.Main) {
@@ -24,17 +26,19 @@ class CommunityViewModel constructor(private val repository: MainRepository) : V
                     if (response.isSuccessful) {
                         community.postValue(response.body())
                     } else {
-                        Log.e("GetCommunity", response.code().toString())
+                        Log.e(TAG, response.code().toString())
                     }
                 } catch (e: HttpException) {
-                    Log.e("GetCommunity", e.message())
+                    Log.e(TAG, e.message())
                 } catch (e: Throwable) {
-                    Log.e("GetCommunity", "Something went wrong")
+                    Log.e(TAG, "Something went wrong")
                 }
+                loading.postValue(false)
             }
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     class ViewModelFactory constructor(private val repository: MainRepository) :
         ViewModelProvider.Factory {
 
@@ -45,5 +49,9 @@ class CommunityViewModel constructor(private val repository: MainRepository) : V
                 throw IllegalArgumentException("ViewModel Not Found")
             }
         }
+    }
+
+    companion object {
+        const val TAG = "GetCommunity"
     }
 }

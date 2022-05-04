@@ -5,10 +5,24 @@
     <dimen name="txt_size_small">14sp</dimen>
     <dimen name="padding_normal">25dp</dimen>
     <dimen name="padding_very_small">8dp</dimen>
+    <dimen name="padding_small">15dp</dimen>
     <dimen name="margin_very_small">8dp</dimen>
     <dimen name="margin_normal">14dp</dimen>
     <dimen name="margin_big">19dp</dimen>
     <dimen name="margin_big_very">28dp</dimen>
+    <dimen name="margin_large">80dp</dimen>
+    <dimen name="margin_large_very">100dp</dimen>
+    <dimen name="pokemon_image">100dp</dimen>
+    <dimen name="trainer_image">100dp</dimen>
+    <dimen name="pokeball_image_anchor">60dp</dimen>
+    <dimen name="pokeball_elevation">20dp</dimen>
+    <dimen name="card_view_elevation_small">5dp</dimen>
+    <dimen name="progress_bar_normal">100dp</dimen>
+    <dimen name="button_capture_height">70dp</dimen>
+    <dimen name="map_view_height">250dp</dimen>
+
+
+
 
 
 </resources>

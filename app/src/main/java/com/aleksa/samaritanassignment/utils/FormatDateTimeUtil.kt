@@ -14,6 +14,5 @@ class FormatDateTimeUtil {
         return time?.let {
             DateUtils.getRelativeTimeSpanString(it, now, DateUtils.MINUTE_IN_MILLIS).toString()
         }
-
     }
 }

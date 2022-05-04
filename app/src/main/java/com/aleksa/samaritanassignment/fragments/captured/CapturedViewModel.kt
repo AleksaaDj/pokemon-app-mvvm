@@ -15,26 +15,44 @@ import retrofit2.HttpException
 class CapturedViewModel constructor(private val repository: MainRepository) : ViewModel() {
 
     val captured = MutableLiveData<List<CapturedItem>>()
+    val loading = MutableLiveData<Boolean>()
 
     fun getCaptured(token: String) {
+        loading.postValue(true)
         CoroutineScope(Dispatchers.IO).launch {
-            val response = repository.getCaptured("Bearer $token")
-            withContext(Dispatchers.Main) {
-                try {
-                    if (response.isSuccessful) {
-                        captured.postValue(response.body())
-                    } else {
-                        Log.e("GetCaptured", response.code().toString())
+            val capturedItemRoomList = repository.getCapturedTable()
+            if (capturedItemRoomList.isEmpty()) {
+                val response = repository.getCaptured("Bearer $token")
+                withContext(Dispatchers.Main) {
+                    try {
+                        if (response.isSuccessful) {
+                            captured.postValue(response.body())
+                            response.body()?.let { addCapturedItemsToDatabase(it) }
+                        } else {
+                            Log.e(TAG, response.code().toString())
+                        }
+                    } catch (e: HttpException) {
+                        Log.e(TAG, e.message())
+                    } catch (e: Throwable) {
+                        Log.e(TAG, "Something went wrong")
                     }
-                } catch (e: HttpException) {
-                    Log.e("GetCaptured", e.message())
-                } catch (e: Throwable) {
-                    Log.e("GetCaptured", "Something went wrong")
                 }
+            } else {
+                captured.postValue(capturedItemRoomList)
+            }
+            loading.postValue(false)
+        }
+    }
+
+    private suspend fun addCapturedItemsToDatabase(capturedItemList: List<CapturedItem>) {
+        capturedItemList.let {
+            for (capturedItem in it) {
+                repository.insertCapturedItem(capturedItem)
             }
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     class ViewModelFactory constructor(private val repository: MainRepository) :
         ViewModelProvider.Factory {
 
@@ -45,5 +63,8 @@ class CapturedViewModel constructor(private val repository: MainRepository) : Vi
                 throw IllegalArgumentException("ViewModel Not Found")
             }
         }
+    }
+    companion object {
+        const val TAG = "GetCaptured"
     }
 }

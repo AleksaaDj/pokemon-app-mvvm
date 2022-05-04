@@ -10,8 +10,8 @@
 
         <ImageView
             android:id="@+id/pokemon_image_iv"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/pokemon_image"
+            android:layout_height="@dimen/pokemon_image"
             android:contentDescription="@string/trainer_img"
             android:padding="@dimen/padding_very_small"
             android:src="@drawable/bulbasaur"

@@ -7,7 +7,7 @@
     android:layout_marginTop="@dimen/margin_very_small"
     android:layout_marginEnd="@dimen/margin_very_small"
     android:layout_marginBottom="@dimen/margin_very_small"
-    android:elevation="5dp">
+    android:elevation="@dimen/card_view_elevation_small">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/trainer_image_iv"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/trainer_image"
+            android:layout_height="@dimen/trainer_image"
             android:contentDescription="@string/trainer_img"
             android:padding="@dimen/padding_very_small"
             android:src="@drawable/no_trainer_img"
@@ -30,7 +30,6 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/padding_very_small"
             android:paddingTop="@dimen/padding_very_small"
-            android:text="Trainer XXXXX"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@id/trainer_image_iv"
             app:layout_constraintTop_toTopOf="@id/trainer_image_iv" />
@@ -40,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_very_small"
-            android:text="captured"
+            android:text="@string/captured"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@id/trainer_image_iv"
             app:layout_constraintTop_toBottomOf="@+id/trainer_name_tv" />
@@ -50,7 +49,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_very_small"
-            android:text="Bulbasaur"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@id/trainer_image_iv"
             app:layout_constraintTop_toBottomOf="@+id/captured_tv" />
@@ -67,8 +65,8 @@
 
         <ImageView
             android:id="@+id/pokemon_image_iv"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="@dimen/pokemon_image"
+            android:layout_height="@dimen/pokemon_image"
             android:layout_marginStart="@dimen/margin_big"
             android:contentDescription="@string/trainer_img"
             android:padding="@dimen/padding_very_small"

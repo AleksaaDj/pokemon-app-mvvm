@@ -13,7 +13,12 @@
     <string name="assign_name">Assign a Name?</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
-    <string name="name">Name:</string>
+    <string name="name_place_holder">Name: %1$s</string>
+    <string name="name">Name: </string>
     <string name="types">Types:</string>
-    <string name="captured_on">Captured On:</string>
+    <string name="captured_by_placeholder">Captured by %1$s</string>
+    <string name="captured_on_placeholder">Captured on %1$s</string>
+    <string name="time_captured_placeholder">On %1$s</string>
+    <string name="capture_in">Capture In</string>
+    <string name="captured">captured</string>
 </resources>
