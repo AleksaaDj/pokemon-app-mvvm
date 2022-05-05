@@ -17,8 +17,8 @@ import com.aleksa.samaritanassignment.utils.Constants
 
 class MyTeamFragment : Fragment() {
 
-    lateinit var binding: FragmentMyTeamBinding
-    lateinit var viewModel: MyTeamViewModel
+    private lateinit var binding: FragmentMyTeamBinding
+    private lateinit var viewModel: MyTeamViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -20,9 +20,4 @@
     <dimen name="progress_bar_normal">100dp</dimen>
     <dimen name="button_capture_height">70dp</dimen>
     <dimen name="map_view_height">250dp</dimen>
-
-
-
-
-
 </resources>

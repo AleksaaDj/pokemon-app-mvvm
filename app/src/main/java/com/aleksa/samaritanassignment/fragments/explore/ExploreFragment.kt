@@ -20,7 +20,7 @@ import kotlin.random.Random
 
 class ExploreFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     private var mapView: MapView? = null
-    lateinit var viewModel: ExploreViewModel
+    private lateinit var viewModel: ExploreViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

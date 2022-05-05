@@ -13,10 +13,7 @@ import com.aleksa.samaritanassignment.utils.Constants
 
 class CapturedAdapter(private val list: List<CapturedItem>) :
     RecyclerView.Adapter<CapturedAdapter.MyView>() {
-
-    class MyView(view: View) : RecyclerView.ViewHolder(view) {
-    }
-
+    class MyView(view: View) : RecyclerView.ViewHolder(view)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyView {
         val itemView: View = LayoutInflater
             .from(parent.context)
@@ -48,5 +45,4 @@ class CapturedAdapter(private val list: List<CapturedItem>) :
     override fun getItemCount(): Int {
         return list.size
     }
-
 }
