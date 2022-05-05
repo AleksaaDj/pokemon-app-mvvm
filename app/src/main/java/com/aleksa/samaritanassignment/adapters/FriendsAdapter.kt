@@ -18,7 +18,6 @@ import com.aleksa.samaritanassignment.utils.FormatDateTimeUtil
 
 class FriendsAdapter(private val list: List<Friends>) :
     RecyclerView.Adapter<FriendsAdapter.MyView>() {
-    private var formatDateTimeUtil = FormatDateTimeUtil()
     class MyView(view: View) : RecyclerView.ViewHolder(view) {
         var nameTrainer: TextView = view.findViewById(R.id.trainer_name_tv)
         var namePokemon: TextView = view.findViewById(R.id.pokemon_name_tv)
@@ -40,7 +39,7 @@ class FriendsAdapter(private val list: List<Friends>) :
 
     override fun onBindViewHolder(holder: MyView, position: Int) {
         val listData = list[position]
-        val formattedDate = formatDateTimeUtil.parseSimpleDate(listData.pokemon.capturedAt)
+        val formattedDate = FormatDateTimeUtil.parseSimpleDate(listData.pokemon.capturedAt)
         with(holder) {
             nameTrainer.text = listData.name
             namePokemon.text = listData.pokemon.name

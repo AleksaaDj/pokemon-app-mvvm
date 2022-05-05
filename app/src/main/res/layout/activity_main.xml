@@ -7,13 +7,40 @@
     android:orientation="vertical"
     tools:context=".activities.MainActivity">
 
+    <RelativeLayout
+        android:id="@+id/internet_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/turn_internet_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/please_turn_wifi_on"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txt_size_big" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/refresh_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/turn_internet_tv"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/refresh"
+            app:backgroundTint="@color/red" />
+    </RelativeLayout>
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        app:tabMode="scrollable"
         app:tabIndicatorColor="@color/red"
+        app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/red"
         app:tabTextColor="@color/black" />
 

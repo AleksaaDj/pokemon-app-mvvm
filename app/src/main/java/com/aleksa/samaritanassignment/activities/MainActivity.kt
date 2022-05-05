@@ -1,10 +1,17 @@
 package com.aleksa.samaritanassignment.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.core.view.isVisible
 import com.aleksa.samaritanassignment.adapters.FragmentPagerAdapter
 import com.aleksa.samaritanassignment.databinding.ActivityMainBinding
+import com.aleksa.samaritanassignment.utils.InternetChecker
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.analytics.FirebaseAnalytics
 
@@ -24,18 +31,28 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         supportActionBar?.hide()
         setContentView(view)
+        setupView()
+    }
 
-        @SuppressLint("MissingPermission")
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+    private fun setupView() {
+        if (InternetChecker.isOnline(this)) {
+            @SuppressLint("MissingPermission")
+            firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-        val viewPager = binding.viewPager
-        val tabLayout = binding.tabLayout
+            val viewPager = binding.viewPager
+            val tabLayout = binding.tabLayout
 
-        val adapter = FragmentPagerAdapter(supportFragmentManager, lifecycle)
-        viewPager.adapter = adapter
+            val adapter = FragmentPagerAdapter(supportFragmentManager, lifecycle)
+            viewPager.adapter = adapter
 
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = tabsNameArray[position]
-        }.attach()
+            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                tab.text = tabsNameArray[position]
+            }.attach()
+            binding.internetLayout.isVisible = false
+        } else {
+            Toast.makeText(this, "No Internet", Toast.LENGTH_SHORT).show()
+            binding.internetLayout.isVisible = true
+            binding.refreshBtn.setOnClickListener { setupView() }
+        }
     }
 }
