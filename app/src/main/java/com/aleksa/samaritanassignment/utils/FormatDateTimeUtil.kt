@@ -4,7 +4,7 @@ import android.text.format.DateUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FormatDateTimeUtil {
+object FormatDateTimeUtil {
 
     fun parseSimpleDate(dateTime: String): String? {
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss-mm:ss", Locale.ENGLISH)

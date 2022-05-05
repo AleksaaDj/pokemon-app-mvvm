@@ -21,4 +21,6 @@
     <string name="time_captured_placeholder">On %1$s</string>
     <string name="capture_in">Capture In</string>
     <string name="captured">captured</string>
+    <string name="please_turn_wifi_on">Please turn WiFi on</string>
+    <string name="refresh">Refresh</string>
 </resources>
