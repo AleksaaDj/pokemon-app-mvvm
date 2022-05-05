@@ -29,8 +29,8 @@ class PokemonDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var captureTime: String
     private var pokemonLongitude: Double = 0.0
     private var pokemonLatitude: Double = 0.0
-    lateinit var viewModel: PokemonDetailViewModel
-    lateinit var pokemon: Pokemon
+    private lateinit var viewModel: PokemonDetailViewModel
+    private lateinit var pokemon: Pokemon
     private var mapView: MapView? = null
     private lateinit var token: String
     private lateinit var binding: ActivityPokemonDetailBinding
@@ -46,17 +46,23 @@ class PokemonDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         mapView?.onCreate(savedInstanceState)
         mapView?.getMapAsync(this)
         val sharedPreference =
-            applicationContext?.getSharedPreferences(Constants.SHARED_PREFERENCES_NAME_MAIN, Context.MODE_PRIVATE)
+            applicationContext?.getSharedPreferences(
+                Constants.SHARED_PREFERENCES_NAME_MAIN,
+                Context.MODE_PRIVATE
+            )
         token = sharedPreference?.getString(Constants.SHARED_PREFERENCES_TOKEN, "").toString()
         setupViewModel()
     }
 
-    private fun getSharedPreferencesValues(){
+    private fun getSharedPreferencesValues() {
         screenType = intent.getStringExtra(Constants.SHARED_PREFERENCES_SCREEN_TYPE).toString()
         pokemonName = intent.getStringExtra(Constants.SHARED_PREFERENCES_POKEMON_NAME).toString()
-        trainerName = intent.getStringExtra(Constants.SHARED_PREFERENCES_POKEMON_TRAINER_NAME).toString()
-        captureTime = intent.getStringExtra(Constants.SHARED_PREFERENCES_POKEMON_CAPTURED_AT).toString()
-        pokemonLongitude = intent.getDoubleExtra(Constants.SHARED_PREFERENCES_POKEMON_LONGITUDE, 0.0)
+        trainerName =
+            intent.getStringExtra(Constants.SHARED_PREFERENCES_POKEMON_TRAINER_NAME).toString()
+        captureTime =
+            intent.getStringExtra(Constants.SHARED_PREFERENCES_POKEMON_CAPTURED_AT).toString()
+        pokemonLongitude =
+            intent.getDoubleExtra(Constants.SHARED_PREFERENCES_POKEMON_LONGITUDE, 0.0)
         pokemonLatitude = intent.getDoubleExtra(Constants.SHARED_PREFERENCES_POKEMON_LATITUDE, 0.0)
     }
 
@@ -152,32 +158,36 @@ class PokemonDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setupCaptureButton() {
         binding.captureBtn.setOnClickListener {
-            val customDialog = Dialog(this@PokemonDetailActivity)
-            customDialog.setContentView(R.layout.custom_dialog_capture)
-            customDialog.window?.setLayout(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            val editText = customDialog.findViewById(R.id.txt_input) as EditText
-            val saveBtn = customDialog.findViewById(R.id.btn_save) as Button
-            val cancelBtn = customDialog.findViewById(R.id.btn_cancel) as Button
-            saveBtn.setOnClickListener {
-                viewModel.capturePokemon(
-                    token,
-                    pokemon.id,
-                    editText.text.toString(),
-                    pokemonLatitude,
-                    pokemonLongitude
-                )
-                customDialog.dismiss()
-                binding.animationView.isVisible = true
-                binding.animationView.playAnimation()
-            }
-            cancelBtn.setOnClickListener {
-                customDialog.dismiss()
-            }
-            customDialog.show()
+            createCustomDialog()
         }
+    }
+
+    private fun createCustomDialog() {
+        val customDialog = Dialog(this@PokemonDetailActivity)
+        customDialog.setContentView(R.layout.custom_dialog_capture)
+        customDialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        val editText = customDialog.findViewById(R.id.txt_input) as EditText
+        val saveBtn = customDialog.findViewById(R.id.btn_save) as Button
+        val cancelBtn = customDialog.findViewById(R.id.btn_cancel) as Button
+        saveBtn.setOnClickListener {
+            viewModel.capturePokemon(
+                token,
+                pokemon.id,
+                editText.text.toString(),
+                pokemonLatitude,
+                pokemonLongitude
+            )
+            customDialog.dismiss()
+            binding.animationView.isVisible = true
+            binding.animationView.playAnimation()
+        }
+        cancelBtn.setOnClickListener {
+            customDialog.dismiss()
+        }
+        customDialog.show()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

@@ -17,7 +17,7 @@ import com.aleksa.samaritanassignment.utils.Constants
 
 
 class CapturedFragment : Fragment() {
-    lateinit var binding: FragmentCapturedBinding
+    private lateinit var binding: FragmentCapturedBinding
     private lateinit var viewModel: CapturedViewModel
 
     override fun onCreateView(
@@ -52,5 +52,4 @@ class CapturedFragment : Fragment() {
         recyclerCaptured.layoutManager = GridLayoutManager(context,3)
         recyclerCaptured.adapter = CapturedAdapter(capturedItems)
     }
-
 }

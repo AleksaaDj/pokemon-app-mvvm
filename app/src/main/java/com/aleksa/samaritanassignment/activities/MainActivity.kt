@@ -1,5 +1,6 @@
 package com.aleksa.samaritanassignment.activities
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.aleksa.samaritanassignment.adapters.FragmentPagerAdapter
@@ -16,7 +17,7 @@ val tabsNameArray = arrayOf(
 
 class MainActivity : AppCompatActivity() {
     private lateinit var firebaseAnalytics: FirebaseAnalytics
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setContentView(view)
 
+        @SuppressLint("MissingPermission")
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         val viewPager = binding.viewPager

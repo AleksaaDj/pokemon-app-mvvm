@@ -18,7 +18,7 @@ import com.aleksa.samaritanassignment.utils.Constants
 
 class CommunityFragment : Fragment() {
     private lateinit var binding: FragmentCommunityBinding
-    lateinit var viewModel: CommunityViewModel
+    private lateinit var viewModel: CommunityViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
